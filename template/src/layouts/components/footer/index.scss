@@ -1,0 +1,9 @@
+@import '@/styles/animate.scss';
+
+.footer {
+  height: $footerHeight;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
