@@ -141,18 +141,17 @@ module.exports = merge(
           ],
         },
         {
-          test: /\.(eot|svg|ttf|woff|woff2)$/,
-          exclude: [path.resolve(__dirname, `src/assets/svgs`)],
+          test: /\.(eot|ttf|woff|woff2)$/,
           use: [
             {
               loader: 'file-loader',
               options: {
-                name: '[name].[ext]',
-                outputPath: './',
-                limit: 10000,
+                name: '[name].[contenthash:5].[ext]',
+                esModule: false, //不使用es6的模块语法
               },
             },
           ],
+          type: 'javascript/auto', //默认使用自定义的
         },
         {
           test: /\.(gif|png|ico|jpe?g|svg)$/i,

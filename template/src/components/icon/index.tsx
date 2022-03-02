@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './index.scss';
 import icons from '@/assets/iconfont/iconfont.css';
+import styles from './index.scss';
 
 require(`@/assets/svgs`);
 
