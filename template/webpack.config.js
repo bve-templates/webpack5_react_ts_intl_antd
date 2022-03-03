@@ -35,6 +35,7 @@ module.exports = merge(
   {
     output: {
       clean: true,
+      assetModuleFilename: '[name].[contenthash:5][ext][query]',
     },
     optimization: {
       moduleIds: 'deterministic',
@@ -60,27 +61,6 @@ module.exports = merge(
           test: /\.html$/,
           loader: 'html-loader',
           exclude: [path.resolve(__dirname, 'node_modules')],
-          options: {
-            sources: {
-              list: [
-                '...',
-                // 处理掉HTML中 <link rel="stylesheet" type="text/css" href="iconfont.css" />
-                // src/assets/demo_index.html中这样引入css会打包出错误的css代码导致报错
-                // 意味着在HTML模板中使用 <link rel="stylesheet" type="text/css" href="iconfont.css" />这样的标签无效
-                {
-                  tag: 'link',
-                  attribute: 'href',
-                  type: 'src',
-                  filter: (tag, attribute, attributes, resourcePath) => {
-                    if (!/stylesheet/i.test(attributes.rel)) {
-                      return false;
-                    }
-                    return true;
-                  },
-                },
-              ],
-            },
-          },
         },
         {
           test: /\.jsx?$/,
@@ -147,41 +127,14 @@ module.exports = merge(
         },
         {
           test: /\.(eot|ttf|woff|woff2)$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name(resourcePath, resourceQuery) {
-                  if (process.env.NODE_ENV === 'development') {
-                    return '[path][name].[ext]';
-                  }
-                  return '[name].[contenthash:5].[ext]';
-                },
-                esModule: false, //不使用es6的模块语法
-              },
-            },
-          ],
-          type: 'javascript/auto', //默认使用自定义的
+          type: 'asset/resource',
         },
         {
           test: /\.(gif|png|ico|jpe?g|svg)$/i,
+          type: 'asset/resource',
           // 排除自身的svg
           // 排除自身外的assets_XXX目录，不然其它app的assets依旧会被打包
           exclude: path.resolve(__dirname, `src/assets/svgs`),
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name(resourcePath, resourceQuery) {
-                  if (process.env.NODE_ENV === 'development') {
-                    return '[path][name].[ext]';
-                  }
-                  return '[name].[contenthash:5].[ext]';
-                },
-                outputPath: './',
-              },
-            },
-          ],
         },
       ],
     },
@@ -204,6 +157,18 @@ module.exports = merge(
       }),
       new ScriptExtHtmlWebpackPlugin({
         inline: /runtime~.+\.js$/,
+      }),
+      // 字体demo不需要被打包
+      new webpack.IgnorePlugin({
+        checkResource(resource) {
+          if (
+            resource.endsWith('/iconfont/demo.css') ||
+            resource.endsWith('/iconfont/demo_index.html')
+          ) {
+            return true;
+          }
+          return false;
+        },
       }),
     ],
     devtool: false,
