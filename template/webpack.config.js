@@ -151,7 +151,12 @@ module.exports = merge(
             {
               loader: 'file-loader',
               options: {
-                name: '[name].[contenthash:5].[ext]',
+                name(resourcePath, resourceQuery) {
+                  if (process.env.NODE_ENV === 'development') {
+                    return '[path][name].[ext]';
+                  }
+                  return '[name].[contenthash:5].[ext]';
+                },
                 esModule: false, //不使用es6的模块语法
               },
             },
@@ -171,7 +176,7 @@ module.exports = merge(
                   if (process.env.NODE_ENV === 'development') {
                     return '[path][name].[ext]';
                   }
-                  return '[contenthash].[ext]';
+                  return '[name].[contenthash:5].[ext]';
                 },
                 outputPath: './',
               },
