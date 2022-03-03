@@ -60,16 +60,16 @@ module.exports = merge(
         {
           test: /\.html$/,
           loader: 'html-loader',
-          exclude: [path.resolve(__dirname, 'node_modules')],
+          exclude: /node_modules/,
         },
         {
           test: /\.jsx?$/,
-          exclude: [path.resolve(__dirname, 'node_modules')],
+          exclude: /node_modules/,
           loader: 'babel-loader',
         },
         {
           test: /\.tsx?$/,
-          exclude: [path.resolve(__dirname, 'node_modules')],
+          exclude: /node_modules/,
           loader: 'ts-loader',
           options: {
             // 指定特定的ts编译配置，为了区分脚本的ts配置
@@ -111,6 +111,7 @@ module.exports = merge(
         },
         {
           test: /\.svg$/,
+          exclude: /node_modules/,
           include: [path.resolve(__dirname, `src/assets/svgs`)],
           use: [
             {
