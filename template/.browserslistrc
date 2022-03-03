@@ -1,8 +1,12 @@
-# CSS要支持浏览器
+# 浏览器支持
 # 详情参考 https://github.com/browserslist/browserslist
+# 新增环境时需要配置
 
 [production]
 last 10 versions
 
 [development]
+last 10 versions
+
+[test]
 last 10 versions

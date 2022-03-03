@@ -5,6 +5,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const tsImportPluginFactory = require('ts-import-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const { checkEnv } = require('./webpack/generate');
+
+const envConfigPath = path.resolve('webpack', `env.${process.env.NODE_ENV}.js`);
+// 检测环境变量
+checkEnv(envConfigPath);
 
 // 开发环境
 const isDev = process.env.NODE_ENV === 'development';
@@ -171,26 +176,6 @@ module.exports = merge(
                 outputPath: './',
               },
             },
-            // 图片压缩
-            // {
-            //   loader: 'image-webpack-loader',
-            //   options: {
-            //     mozjpeg: {
-            //       progressive: true,
-            //       quality: 65,
-            //     },
-            //     optipng: {
-            //       enabled: false,
-            //     },
-            //     pngquant: {
-            //       quality: [0.65, 0.9],
-            //       speed: 4,
-            //     },
-            //     gifsicle: {
-            //       interlaced: false,
-            //     },
-            //   },
-            // },
           ],
         },
       ],
@@ -223,5 +208,5 @@ module.exports = merge(
    * production 生产环境
    * development 开发环境
    */
-  require(path.resolve('webpack', process.env.NODE_ENV)),
+  require(envConfigPath),
 );
