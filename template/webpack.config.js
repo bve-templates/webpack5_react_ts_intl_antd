@@ -34,7 +34,7 @@ const sassLoader = {
 module.exports = merge(
   {
     output: {
-      clean: true,
+      clean: !isDev,
       assetModuleFilename: '[name].[contenthash:5][ext][query]',
     },
     optimization: {
@@ -146,7 +146,6 @@ module.exports = merge(
       // 处理HTML
       new HtmlWebpackPlugin({
         filename: 'index.html',
-        hash: isDev,
         template: path.resolve(__dirname, 'src/index.html'),
         favicon: path.resolve(__dirname, 'src/assets/images/favicon.ico'),
       }),
@@ -172,7 +171,7 @@ module.exports = merge(
         },
       }),
     ],
-    devtool: false,
+    devtool: false, // 'source-map',
   },
   /**
    * 跟据环境加载不同配置
