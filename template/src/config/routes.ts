@@ -1,14 +1,17 @@
 /**
- * 当前目录是pages，所以配置components时注意路径
+ * 当前目录是@，也是就src
  */
 
 const routes = [
   {
     path: '/',
-    component: './layouts',
+    component: 'layouts',
     routes: [
-      { exact: true, path: '/', component: './pages/home' },
-      { exact: true, path: '/page', component: './pages/page' },
+      { exact: true, path: '/', component: 'pages/home' },
+      { exact: true, path: '/page', component: 'pages/page' },
+      { exact: true, path: '/404', component: 'pages/notFound' },
+      { exact: true, path: '/login', component: 'pages/login' },
+      { exact: true, path: '/demo', component: 'pages/demo', auth: true },
       {
         redirect: '/',
       },

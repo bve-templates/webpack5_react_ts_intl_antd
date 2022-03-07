@@ -14,12 +14,12 @@ export default loader =>
           <Loading />
         ) : error ? (
           <div className={styles.error}>
-            <p>{JSON.stringify(error)}</p>
-            <p>
+            <div>{JSON.stringify(error)}</div>
+            <div>
               <Button onClick={() => window.location.reload()}>
                 {intl.get('reload')}
               </Button>
-            </p>
+            </div>
           </div>
         ) : null}
       </div>

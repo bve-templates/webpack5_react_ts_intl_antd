@@ -2,13 +2,11 @@ import React from 'react';
 import { ConfigProvider } from 'antd';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 import '@/i18n';
-import ErrorBoundary from '@/components/errorBoundary';
 import ScrollToTop from '@/components/scrollToTop';
-import Loadable from '@/components/loadable';
 import localStorage from '@/utils/localStorage';
-import routes from '@/config/routes';
+import FrontendAuth from '@/components/frontendAuth';
 import { store } from '@/store';
 import Pol from '@/utils/polling';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
@@ -31,56 +29,7 @@ async function render() {
         <BrowserRouter>
           <ScrollToTop>
             <Switch>
-              {routes.map(
-                ({ component, path, exact, routes, redirect }: any) => {
-                  const C = ErrorBoundary(
-                    Loadable(() => import(`${component}`)),
-                  );
-                  if (routes) {
-                    return (
-                      <Route path={path} key={path}>
-                        <C>
-                          <Switch>
-                            {routes.map(
-                              ({ component, path, exact, redirect }) => {
-                                if (redirect) {
-                                  return (
-                                    <Redirect
-                                      key={redirect + 'redirect'}
-                                      to={redirect}
-                                      from={path}
-                                    />
-                                  );
-                                }
-                                return (
-                                  <Route
-                                    exact={exact}
-                                    path={path}
-                                    key={path}
-                                    component={ErrorBoundary(
-                                      Loadable(() => import(`${component}`)),
-                                    )}
-                                  />
-                                );
-                              },
-                            )}
-                          </Switch>
-                        </C>
-                      </Route>
-                    );
-                  }
-                  if (redirect) {
-                    <Redirect
-                      key={redirect + 'redirect'}
-                      to={redirect}
-                      from={path}
-                    />;
-                  }
-                  return (
-                    <Route key={path} exact={exact} path={path} component={C} />
-                  );
-                },
-              )}
+              <FrontendAuth />
             </Switch>
           </ScrollToTop>
         </BrowserRouter>
