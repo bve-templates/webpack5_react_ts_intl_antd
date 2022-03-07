@@ -25,7 +25,7 @@ function FrontendAuth(props) {
   // 登录状态获取，这个根据自己设计获取登录状态
   const isLogin = localStorage.get('isLogin');
   const targetRouterConfig = findRouter(routes, pathname);
-  console.log(targetRouterConfig);
+
   if (!targetRouterConfig) {
     return <Redirect to="/404" />;
   } else {
