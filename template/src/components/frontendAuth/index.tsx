@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { pathToRegexp } from 'path-to-regexp';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import Loadable from '@/components/loadable';
 import ErrorBoundary from '@/components/errorBoundary';
 import routes from '@/config/routes';
@@ -8,7 +9,7 @@ import localStorage from '@/utils/localStorage';
 // 查找当前路由对的配置
 function findRouter(routes, pathname) {
   for (const route of routes) {
-    if (route.path === pathname) {
+    if (route.path && pathToRegexp(route.path).test(pathname)) {
       return route;
     }
     if (route.routes) {
@@ -24,6 +25,7 @@ function FrontendAuth(props) {
   // 登录状态获取，这个根据自己设计获取登录状态
   const isLogin = localStorage.get('isLogin');
   const targetRouterConfig = findRouter(routes, pathname);
+  console.log(targetRouterConfig);
   if (!targetRouterConfig) {
     return <Redirect to="/404" />;
   } else {
@@ -31,6 +33,7 @@ function FrontendAuth(props) {
       return <Redirect to="/login" />;
     }
   }
+
   return (
     <>
       {routes.map(({ component, path, exact, routes, redirect, auth }: any) => {
@@ -77,4 +80,4 @@ function FrontendAuth(props) {
     </>
   );
 }
-export default FrontendAuth;
+export default withRouter(FrontendAuth);
