@@ -1,9 +1,11 @@
 import React from 'react';
 import intl from 'react-intl-universal';
 import Button from '@/components/button';
+import { Input, Select } from 'antd';
 import Icon from '@/components/icon';
 import localStorage from '@/utils/localStorage';
 import styles from './index.scss';
+const { Option } = Select;
 
 function Page(props) {
   function doChangeLang(lang) {
@@ -33,6 +35,13 @@ function Page(props) {
         <Icon type="test" />
       </Button>
       <Button className={styles.btn}>环境变量：{process.env.BUILD_ENV}</Button>
+      <Input addonBefore="http://" suffix=".com" defaultValue="mysite" />
+      <Select defaultValue=".com" className="select-after">
+        <Option value=".com">.com</Option>
+        <Option value=".jp">.jp</Option>
+        <Option value=".cn">.cn</Option>
+        <Option value=".org">.org</Option>
+      </Select>
     </div>
   );
 }

@@ -34,7 +34,10 @@ module.exports = api => {
           useESModules: false,
         },
       ],
-      ['import', { libraryName: 'antd', style: 'css' }],
+      [
+        'import',
+        { libraryName: 'antd', style: 'css', libraryDirectory: 'lib' },
+      ],
     ],
   };
 };

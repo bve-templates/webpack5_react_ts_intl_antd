@@ -99,9 +99,11 @@ module.exports = merge(
               loader: 'css-loader',
               options: {
                 modules: {
+                  auto: resourcePath =>
+                    !resourcePath.includes('/node_modules/antd/'),
                   localIdentName: isDev
                     ? '[path][name]__[local]'
-                    : '[hash:base64:3]',
+                    : '[hash:base64:5]',
                 },
               },
             },
