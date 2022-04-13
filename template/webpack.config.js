@@ -173,7 +173,7 @@ module.exports = merge(
         },
       }),
     ],
-    devtool: false, // 'source-map',
+    devtool: isDev ? 'source-map' : false,
   },
   /**
    * 跟据环境加载不同配置
